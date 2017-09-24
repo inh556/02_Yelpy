@@ -12,46 +12,48 @@ import UIKit
     @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String: AnyObject])
 }
 
-
 class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DealCellDelegate, DistanceCellDelegate, SortByCellDelegate, SwitchCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
     weak var delegate: FiltersViewControllerDelegate?
     
-    /*
-    struct Filters {
-        var sectionName: String!
-        var sectionFilters: [[String]]!
-    }
- */
+    var deals: [String: Bool]!
+    var dealsKeys: [String]!
+    var dealsValues: [Bool]!
     
-    var filtersAll = [[String: String]]()
+    var distances: [String: Int]!
+    var distancesKeys: [String]!
+    var distancesValues: [Int]!
     
-    
-    //var filters: Filters!
+    var sortBys: [String: Int]!
+    var sortBysKeys: [String]!
+    var sortBysValues: [Int]!
     
     var categories: [[String: String]]!
-    var sortbys: [[String: String]]!
-    var distances: [[String: String]]!
-    var deals: [[String: String]]!
     
-    var dealSwitchStates = [Int:Bool]()
+    var dealSwitchStates = Bool()  // ???
     var categorySwitchStates = [Int:Bool]()
-    
-    /*
-    internal let structure: [[Identifier]] = [
-        [.DealOffering],[.DistanceAuto, .DistancePointThreeMiles, .DistanceOneMile, .DistanceFiveMiles, .DistanceTwentyMiles],
-        [.SortByBestMatch, .SortByDistance, .SortByHighestRated]
-    ]
-    */
+
+    // for saving currently seletcted distance index path
+    var selectedDistanceIndexPath = IndexPath(row: 0, section: 1)
+    var selectedSortByIndexPath = IndexPath(row: 0, section: 2)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         deals = yelpDeal()
+        dealsKeys = Array(self.deals.keys)
+        dealsValues = Array(self.deals.values)
+        
         distances = yelpDistance()
-        sortbys = yelpSortBy()
+        distancesKeys = Array(self.distances.keys)
+        distancesValues = Array(self.distances.values)
+        
+        sortBys = yelpSortBy()
+        sortBysKeys = Array(self.sortBys.keys)
+        sortBysValues = Array(self.sortBys.values)
+        
         categories = yelpCategories()
         
         tableView.dataSource = self
@@ -59,23 +61,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
         
-        
-        for deal in deals {
-            filtersAll.append(deal)
-        }
-        
-        for distance in distances {
-            filtersAll.append(distance)
-        }
-        
-        for sortby in sortbys {
-            filtersAll.append(sortby)
-        }
-        
-        for category in categories {
-            filtersAll.append(category)
-        }
-        
+        //let defaults = UserDefaults.standard
     }
     
     
@@ -84,21 +70,20 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func onSearchButton(_ sender: Any) {
-        var filters = [String: AnyObject]()
+        var filters = [String: AnyObject]() // save all selected filter values
     
-        var selectedDeals = [String]()
+        //var selectedDeals = [String]()
         var selectedCategories = [String]()
         
+        //print("dealSwitchStates: \(dealSwitchStates)")
         // deals
-        for (row, isSelected) in dealSwitchStates {
-            if isSelected {
-                selectedDeals.append(deals[row]["code"]!)
-            }
-        }
+        filters["deals"] = dealSwitchStates as AnyObject
         
-        if selectedDeals.count > 0 {
-            filters["deals"] = selectedDeals as AnyObject
-        }
+        // distance
+        filters["distance"] = distancesValues[selectedDistanceIndexPath.row] as AnyObject
+        
+        // sortby
+        filters["sortBy"] = sortBysValues[selectedSortByIndexPath.row] as AnyObject
         
         // categories
         for (row, isSelected) in categorySwitchStates {
@@ -111,6 +96,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             filters["categories"] = selectedCategories as AnyObject
         }
         
+        //print("filters: \(filters)")
         
         delegate?.filtersViewController? (filtersViewController: self, didUpdateFilters: filters)
         
@@ -143,7 +129,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         case 1:
             return distances.count
         case 2:
-            return sortbys.count
+            return sortBys.count
         case 3:
             return categories.count
         default:
@@ -167,31 +153,113 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true) // get rid of gray selection
+        
+        switch (indexPath.section) {
+        case 1: // distance
+
+            if indexPath == selectedDistanceIndexPath {
+                return
+            }
+            
+            // toggle old one off and the new one on
+            let newCell = tableView.cellForRow(at: indexPath)
+            if newCell?.accessoryType == UITableViewCellAccessoryType.none {
+                newCell?.accessoryType = UITableViewCellAccessoryType.checkmark
+            }
+            let oldCell = tableView.cellForRow(at: selectedDistanceIndexPath)
+            if oldCell?.accessoryType == UITableViewCellAccessoryType.checkmark {
+                oldCell?.accessoryType = UITableViewCellAccessoryType.none
+            }
+            
+            selectedDistanceIndexPath = indexPath  // save the selected index path
+            
+            //print("filterSettings.distanceState: \(filterSettings.distanceState)")
+            //cell.preference = Preference(identifier: identifier, value: value)
+            
+            //filterSettings.distanceState = 0.3 ?? 0.3 //distancesValues[selectedDistanceIndexPath.row]
+            //print("distancesValues[selectedDistanceIndexPath.row]: \(distancesValues[selectedDistanceIndexPath.row])")
+        
+        case 2: // sort by
+            if indexPath == selectedSortByIndexPath {
+                return
+            }
+            
+            // toggle old one off and the new one on
+            let newCell = tableView.cellForRow(at: indexPath)
+            if newCell?.accessoryType == UITableViewCellAccessoryType.none {
+                newCell?.accessoryType = UITableViewCellAccessoryType.checkmark
+            }
+            let oldCell = tableView.cellForRow(at: selectedSortByIndexPath)
+            if oldCell?.accessoryType == UITableViewCellAccessoryType.checkmark {
+                oldCell?.accessoryType = UITableViewCellAccessoryType.none
+            }
+            
+            selectedSortByIndexPath = indexPath  // save the selected index path
+            
+            
+        default: break
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch (indexPath.section) {
         case 0: // deal
             let cell = tableView.dequeueReusableCell(withIdentifier: "DealCell", for: indexPath) as! DealCell
-            cell.dealLabel.text = deals[indexPath.row]["name"]
+            cell.dealLabel.text = dealsKeys[indexPath.row]
             cell.delegate = self as DealCellDelegate
-            cell.onDealSwitch.isOn = dealSwitchStates[(indexPath.row)] ?? false
+            dealSwitchStates = dealsValues[indexPath.row]
+            cell.onDealSwitch.isOn = dealSwitchStates
+            
+            cell.selectionStyle = .none // get rid of gray selection
             return cell
+        
         case 1: // distance
             let cell = tableView.dequeueReusableCell(withIdentifier: "DistanceCell", for: indexPath) as! DistanceCell
-            cell.distanceLabel.text = distances[indexPath.row]["name"]
+            
+            cell.distanceLabel.text = distancesKeys[indexPath.row]
+            
             cell.delegate = self as DistanceCellDelegate
+            
+            tableView.cellForRow(at: selectedDistanceIndexPath)?.accessoryType = .checkmark
+            
+            if indexPath == selectedDistanceIndexPath {
+                cell.accessoryType = UITableViewCellAccessoryType.checkmark
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryType.none
+            }
+            
+            
+            cell.selectionStyle = .none // get rid of gray selection
             return cell
+        
         case 2: // sort by
             let cell = tableView.dequeueReusableCell(withIdentifier: "SortByCell", for: indexPath) as! SortByCell
-            cell.sortByLabel.text = sortbys[indexPath.row]["name"]
+            cell.sortByLabel.text = sortBysKeys[indexPath.row]
+            
             cell.delegate = self as SortByCellDelegate
+            
+            tableView.cellForRow(at: selectedSortByIndexPath)?.accessoryType = .checkmark
+            
+            if indexPath == selectedSortByIndexPath {
+                cell.accessoryType = UITableViewCellAccessoryType.checkmark
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryType.none
+            }
+            
+            cell.selectionStyle = .none // get rid of gray selection
             return cell
+        
         case 3: // category
             let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
+            
             cell.switchLabel.text = categories[indexPath.row]["name"]
             cell.delegate = self as SwitchCellDelegate
             
             cell.onOffSwitch.isOn = categorySwitchStates[(indexPath.row)] ?? false
+            cell.selectionStyle = .none // get rid of gray selection
             return cell
             
         default:
@@ -208,57 +276,42 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    
+    
+    func dealCell(DealCell: DealCell, didChangeValue value: Bool) {
+        //let indexPath = tableView.indexPath(for: DealCell)
+        
+        dealSwitchStates = value
+        print ("deal switch event in filter view")
+    }
+    
     func switchCell(SwitchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPath(for: SwitchCell)
         
         categorySwitchStates[(indexPath?.row)!] = value
-        
-        print ("switch event in filter view")
+        print ("category switch event in filter view")
     }
  
-    /*
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return structure[section].count
+    func yelpDeal() -> [String:Bool] {
+        return
+            ["Offering a Deal": false]
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return structure.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = structure[indexPath.section][indexPath.row]
-        let value = newFilters[identifier]!
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        cell.filter = Filter(identifier: identifier, value: value)
-        cell.delegate = self
-        return cell
-    }
- 
-    */
-    
-    func yelpDeal() -> [[String:String]] {
+    func yelpDistance() -> [String:Int] {
         return [
-            ["name": "Offering a Deal", "code": "offeringadeal"]
+            "0.3 mile": 480,
+            "1 mile": 1600,
+            "5 miles": 8000,
+            "20 miles": 32000
         ]
     }
     
-    func yelpDistance() -> [[String:String]] {
+    func yelpSortBy() -> [String:Int] {
         return [
-            ["name": "Auto", "code": "auto"],
-            ["name": "0.3 mile", "code": "pointthreemile"],
-            ["name": "1 mile", "code": "onemile"],
-            ["name": "5 miles", "code": "fivemiles"],
-            ["name": "20 miles", "code": "twentymiles"],
-        ]
-    }
-    
-    func yelpSortBy() -> [[String:String]] {
-        return [
-            ["name": "Best Match", "code": "bestmatch"],
-            ["name": "Distance", "code": "distance"],
-            ["name": "Highest Rated", "code": "highestrated"]
+            "Best Match": 0,
+            "Distance": 1,
+            "Highest Rated": 2
         ]
     }
     

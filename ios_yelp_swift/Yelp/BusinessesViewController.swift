@@ -14,8 +14,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     var businesses: [Business]!
     
+    var filteredBusinesses: [Business]!
+    
     var searchBar: UISearchBar!
     
+    var savedFilters = [String: AnyObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,117 +35,86 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        //print("default savedFilters upon init: \(savedFilters)")
+        
+        
+        if savedFilters["deals"] == nil {
+            savedFilters["deals"] = false as AnyObject
+        }
+        
+        if savedFilters["distance"] == nil {
+            savedFilters["distance"] = 8000 as AnyObject
+        }
+        
+        if savedFilters["sortBy"] == nil {
+            savedFilters["sortBy"] = 0 as AnyObject
+        }
+        
+        if savedFilters["categories"] == nil {
+            savedFilters["categories"] = [] as AnyObject
+        }
+        
+        /*
+        Business.searchWithTerm(term: "Restaurants", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             self.tableView.reloadData()
             
-            /*
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
-             */
-            
-            // network request
-            /*
-            let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-            let url = URL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
-            
-            let request = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-            
-            // get movies
-            let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-            let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-                if let data = data {
-                    if let responseDictionary = try! JSONSerialization.jsonObject (with: data, options: []) as? NSDictionary {
-                        
-                        //print("response:  \(responseDictionary)")
-                        self.movies = responseDictionary["results"] as? [NSDictionary]
-                        self.filteredData = self.movies // for search purposes
-                        
-                        self.tableView.reloadData()
-                        
-                        // hide network error view if there's data
-                        self.networkErrorView.isHidden = true
-                        
-                        // Hide HUD once the network request comes back (must be done on main UI thread)
-                        MBProgressHUD.hide(for: self.view, animated: true)
-                    }
-                }
-                else {
-                    // hide network error view if there's no data
-                    self.networkErrorView.isHidden = false
-                    
-                    // Hide HUD once the network request comes back (must be done on main UI thread)
-                    MBProgressHUD.hide(for: self.view, animated: true)
-                }
-            }
-            task.resume()
-            // get movies - end
-            */
             }
         )
-        
-        /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-         self.businesses = businesses
-         
-         for business in businesses {
-         print(business.name!)
-         print(business.address!)
-         }
-         }
          */
         
+        
+        // Example of Yelp search with more search options specified
+         Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool) { (businesses: [Business]!, error: Error!) -> Void in
+         self.businesses = businesses
+         
+         self.filteredBusinesses = self.businesses
+         //for business in businesses {
+         //print(business.name!)
+         //print(business.address!)
+         self.tableView.reloadData()
+         //   }
+         }
+        
+        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if businesses != nil {
-            return businesses!.count
+            return filteredBusinesses!.count
         } else {
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessCell", for: indexPath) as! BusinessCell
         
-        cell.business = businesses[indexPath.row]
+        cell.business = filteredBusinesses[indexPath.row]
+        
+        //cell.business = businesses[indexPath.row]
+        
+        cell.selectionStyle = .none // get rid of gray selection
         
         return cell
     }
     
-    /*
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //filteredData = searchText.isEmpty ? self.movies : self.movies!.filter { (item: NSDictionary) -> Bool in
+        filteredBusinesses = searchText.isEmpty ? self.businesses : self.businesses!.filter { (item: Business) -> Bool in
             // If dataItem matches the searchText, return true to include it
             //print("searchText: \(searchText)")
-            //let title = item["title"] as! String
-            //print("title match: \(title.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil))")
-            //return title!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-            return ""
+            let bizName = item.name
+            //print("biz name match: \(String(describing: bizName?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)))")
+            return bizName!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         }
         
         tableView.reloadData()
-    }*/
+    }
     
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -171,13 +143,23 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         
+        let savedFilters = filters
+        //print("savedFilters: \(savedFilters)")
+        
+        let deals = filters["deals"] as? Bool
+        let distance = filters["distance"] as? Int
+        let sortBy = YelpSortMode(rawValue: filters["sortBy"] as! Int)
         let categories = filters["categories"] as? [String]
             
-        Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: nil, completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Restaurants", sort: sortBy, categories: categories, distance: distance, deals: deals, completion: { (businesses: [Business]?, error: Error?) -> Void in
                 self.businesses = businesses
                 self.tableView.reloadData()
                 //print("table view reloaded")
             }
     )}
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 }

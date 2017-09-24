@@ -33,7 +33,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="103.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fb4-1G-vBq">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bizimage-small" translatesAutoresizingMaskIntoConstraints="NO" id="Fb4-1G-vBq">
                                                     <rect key="frame" x="8" y="8" width="65" height="65"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="65" id="NGm-Nr-Dss"/>
@@ -186,6 +186,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="CK6-ac-cF4" firstAttribute="centerY" secondItem="Ijb-Mc-P1V" secondAttribute="centerY" id="4aS-8D-smE"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="CK6-ac-cF4" secondAttribute="bottom" constant="6.5" id="MIL-8K-wd1"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="CK6-ac-cF4" secondAttribute="trailing" constant="11" id="ZWN-QH-hNn"/>
                                                 <constraint firstItem="Ijb-Mc-P1V" firstAttribute="top" secondItem="AO0-FS-MLE" secondAttribute="topMargin" constant="11" id="dwP-5M-5o3"/>
                                                 <constraint firstItem="Ijb-Mc-P1V" firstAttribute="leading" secondItem="AO0-FS-MLE" secondAttribute="leadingMargin" constant="7" id="sFq-Mt-fY4"/>
@@ -216,6 +217,7 @@
                                                 <constraint firstItem="bwX-Pu-n2k" firstAttribute="leading" secondItem="NlL-zV-wOg" secondAttribute="leadingMargin" constant="7" id="i8g-pV-J3x"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="tintColor" red="0.74117647060000003" green="0.1058823529" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="distanceLabel" destination="bwX-Pu-n2k" id="NSg-qZ-FPr"/>
                                         </connections>
@@ -240,6 +242,7 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="k25-Y1-fkC" secondAttribute="bottom" constant="11.5" id="I15-he-jTp"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="tintColor" red="0.74117647060000003" green="0.1058823529" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="sortByLabel" destination="k25-Y1-fkC" id="qoV-R8-8CD"/>
                                         </connections>
@@ -356,4 +359,7 @@
             <point key="canvasLocation" x="3951" y="-349"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bizimage-small" width="65" height="65"/>
+    </resources>
 </document>

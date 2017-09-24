@@ -27,7 +27,13 @@ class BusinessCell: UITableViewCell {
     var business: Business! {
         didSet {
             nameLabel.text = business.name
-            thumbImageView.setImageWith(business.imageURL!)
+            //thumbImageView.setImageWith(business.imageURL!)
+            if business.imageURL != nil {
+                thumbImageView.setImageWith(business.imageURL!)
+            } else {
+                //thumbImageView.setImageWith(UIImage(named:"bizimage-small.png"))
+                thumbImageView.image = UIImage(named:"bizimage-small.png")
+            }
             addressLabel.text = business.address
             distanceLabel.text = business.distance
             categoriesLabel.text = business.categories
