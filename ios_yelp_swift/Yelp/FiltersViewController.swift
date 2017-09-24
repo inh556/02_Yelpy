@@ -39,6 +39,9 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     var selectedDistanceIndexPath = IndexPath(row: 0, section: 1)
     var selectedSortByIndexPath = IndexPath(row: 0, section: 2)
     
+    var isDistanceCellTapped = false
+    var isSortByCellTapped = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,6 +103,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         delegate?.filtersViewController? (filtersViewController: self, didUpdateFilters: filters)
         
+        isDistanceCellTapped = false
         dismiss(animated: true, completion: nil)
 
         
@@ -123,13 +127,23 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         switch (section) {
         case 0:
             return deals.count
         case 1:
-            return distances.count
+            if isDistanceCellTapped == true { // return 1 selected row
+                return distances.count
+            } else { // return all rows for the section
+                return 1
+            }
         case 2:
-            return sortBys.count
+            if isSortByCellTapped == true { // return 1 selected row
+                return sortBys.count
+            } else { // return all rows for the section
+                return 1
+            }
+            
         case 3:
             return categories.count
         default:
@@ -159,6 +173,13 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch (indexPath.section) {
         case 1: // distance
 
+            if isDistanceCellTapped == false {
+                isDistanceCellTapped = true
+                tableView.reloadData()
+                //print("isDistanceCellTapped in didSelectRowAt: \(isDistanceCellTapped)")
+                break
+            }
+            
             if indexPath == selectedDistanceIndexPath {
                 return
             }
@@ -175,13 +196,16 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             selectedDistanceIndexPath = indexPath  // save the selected index path
             
-            //print("filterSettings.distanceState: \(filterSettings.distanceState)")
-            //cell.preference = Preference(identifier: identifier, value: value)
-            
-            //filterSettings.distanceState = 0.3 ?? 0.3 //distancesValues[selectedDistanceIndexPath.row]
-            //print("distancesValues[selectedDistanceIndexPath.row]: \(distancesValues[selectedDistanceIndexPath.row])")
         
         case 2: // sort by
+            
+            if isSortByCellTapped == false {
+                isSortByCellTapped = true
+                tableView.reloadData()
+                
+                break
+            }
+            
             if indexPath == selectedSortByIndexPath {
                 return
             }

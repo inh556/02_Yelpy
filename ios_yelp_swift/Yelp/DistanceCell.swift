@@ -16,6 +16,8 @@ class DistanceCell: UITableViewCell {
     
     weak var delegate: DistanceCellDelegate?
     
+    
+    
     @IBOutlet weak var distanceLabel: UILabel!
     
     override func awakeFromNib() {
