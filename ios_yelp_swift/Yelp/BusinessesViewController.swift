@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FiltersViewControllerDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FiltersViewControllerDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -19,6 +19,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var searchBar: UISearchBar!
     
     var savedFilters = [String: AnyObject]()
+    
+    var isMoreDataLoading = false // Inifinite scroll
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,14 +69,17 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         // Example of Yelp search with more search options specified
          Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool) { (businesses: [Business]!, error: Error!) -> Void in
-         self.businesses = businesses
          
-         self.filteredBusinesses = self.businesses
-         //for business in businesses {
-         //print(business.name!)
-         //print(business.address!)
-         self.tableView.reloadData()
-         //   }
+            self.isMoreDataLoading = false
+            
+            self.businesses = businesses
+         
+            self.filteredBusinesses = self.businesses
+            //for business in businesses {
+            //print(business.name!)
+            //print(business.address!)
+            self.tableView.reloadData()
+            //   }
          }
         
         
@@ -129,16 +134,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     //search bar functionality related - end
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        /*if let nav = segue.destination as? UINavigationController {
-            if let vc = nav.topViewController as? FiltersViewController {
-                //vc.preferences = preferences
-            }
-        }*/
-        
-        let navigationController = segue.destination as! UINavigationController
-        let filtersViewController = navigationController.topViewController as! FiltersViewController
+        if segue.identifier == "filterViewControllerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let filtersViewController = navigationController.topViewController as! FiltersViewController
 
-        filtersViewController.delegate = self
+            filtersViewController.delegate = self
+        }
+        else if segue.identifier == "mapViewControllerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let mapViewController = navigationController.topViewController as! MapViewController
+            
+            //mapViewController.delegate = self
+        }
     }
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
@@ -153,13 +160,30 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             
         Business.searchWithTerm(term: "Restaurants", sort: sortBy, categories: categories, distance: distance, deals: deals, completion: { (businesses: [Business]?, error: Error?) -> Void in
                 self.businesses = businesses
+            
+                self.filteredBusinesses = self.businesses
                 self.tableView.reloadData()
                 //print("table view reloaded")
             }
     )}
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // Inifite scroll
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // ... Code to load more results ...
+                /*
+                Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool, completion: ([Business]?, Error?))
+ */
+            }
+        }
     }
+
 }

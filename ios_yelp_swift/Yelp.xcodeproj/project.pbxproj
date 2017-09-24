@@ -23,6 +23,7 @@
 		FB2A68381F775E5C002366FB /* DealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2A68371F775E5C002366FB /* DealCell.swift */; };
 		FB2A683A1F775FA5002366FB /* DistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2A68391F775FA5002366FB /* DistanceCell.swift */; };
 		FB2A683C1F775FC9002366FB /* SortByCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2A683B1F775FC9002366FB /* SortByCell.swift */; };
+		FB2A683E1F785256002366FB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2A683D1F785256002366FB /* MapViewController.swift */; };
 		FBA756051F74F01200FDC5F7 /* yelpCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA756041F74F01200FDC5F7 /* yelpCategories.swift */; };
 		FBA7560F1F773C3E00FDC5F7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FBA7560E1F773C3D00FDC5F7 /* Settings.bundle */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		FB2A68371F775E5C002366FB /* DealCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealCell.swift; sourceTree = "<group>"; };
 		FB2A68391F775FA5002366FB /* DistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceCell.swift; sourceTree = "<group>"; };
 		FB2A683B1F775FC9002366FB /* SortByCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortByCell.swift; sourceTree = "<group>"; };
+		FB2A683D1F785256002366FB /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FBA756041F74F01200FDC5F7 /* yelpCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yelpCategories.swift; sourceTree = "<group>"; };
 		FBA7560E1F773C3D00FDC5F7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,8 +172,9 @@
 		22AAAA9D1AEA1EC600A544AF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FB0529821F74D4C500485B1C /* FiltersViewController.swift */,
 				22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */,
+				FB0529821F74D4C500485B1C /* FiltersViewController.swift */,
+				FB2A683D1F785256002366FB /* MapViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				FB0529831F74D4C500485B1C /* FiltersViewController.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
+				FB2A683E1F785256002366FB /* MapViewController.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
 				FB2A68381F775E5C002366FB /* DealCell.swift in Sources */,
 				FB0529811F74D2FC00485B1C /* SwitchCell.swift in Sources */,

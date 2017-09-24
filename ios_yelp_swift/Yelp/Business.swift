@@ -42,6 +42,8 @@ class Business: NSObject {
                 }
                 address += neighborhoods![0] as! String
             }
+            
+            //print(location)
         }
         self.address = address
         

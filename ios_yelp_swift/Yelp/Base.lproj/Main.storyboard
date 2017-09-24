@@ -133,11 +133,14 @@
                         <barButtonItem key="leftBarButtonItem" title="Filters" id="nrW-4f-e65">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="kbf-Vg-gv9" kind="presentation" modalTransitionStyle="crossDissolve" id="h4F-OP-9bH"/>
+                                <segue destination="kbf-Vg-gv9" kind="presentation" identifier="filterViewControllerSegue" modalTransitionStyle="crossDissolve" id="h4F-OP-9bH"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Map" id="X6d-29-JIx">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="Eg2-U3-30W" kind="presentation" identifier="mapViewControllerSegue" modalTransitionStyle="crossDissolve" id="hWA-1D-SfO"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -314,6 +317,47 @@
             </objects>
             <point key="canvasLocation" x="4728.8000000000002" y="-349.47526236881561"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="4XF-tU-G6U">
+            <objects>
+                <viewController id="WHj-E6-q9h" customClass="MapViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HFw-88-qAF"/>
+                        <viewControllerLayoutGuide type="bottom" id="IWP-sE-wAx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IT0-rT-CFB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bom-mh-QCk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bom-mh-QCk" firstAttribute="leading" secondItem="IT0-rT-CFB" secondAttribute="leading" id="XaN-4U-oAl"/>
+                            <constraint firstAttribute="trailing" secondItem="bom-mh-QCk" secondAttribute="trailing" id="aD2-s2-FV8"/>
+                            <constraint firstItem="bom-mh-QCk" firstAttribute="top" secondItem="IT0-rT-CFB" secondAttribute="topMargin" id="h0C-f8-FHY"/>
+                            <constraint firstItem="IWP-sE-wAx" firstAttribute="top" secondItem="bom-mh-QCk" secondAttribute="bottom" id="lr2-ev-g9U"/>
+                            <constraint firstItem="bom-mh-QCk" firstAttribute="top" secondItem="IT0-rT-CFB" secondAttribute="top" id="qBR-OQ-YxX"/>
+                            <constraint firstItem="IWP-sE-wAx" firstAttribute="top" secondItem="bom-mh-QCk" secondAttribute="bottom" id="xR9-NN-4vc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Map" id="Plk-XN-rZX">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Lu2-3W-yS4">
+                            <connections>
+                                <action selector="onBackButton:" destination="WHj-E6-q9h" id="v3b-pm-kqU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="bom-mh-QCk" id="87A-FV-wR0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VdU-OB-RZh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4729" y="502"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Nys-VH-k5R">
             <objects>
@@ -357,6 +401,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zwl-iV-yeI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3951" y="-349"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wEI-34-19I">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eg2-U3-30W" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cAC-x8-jry">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.74117647060000003" green="0.1058823529" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="WHj-E6-q9h" kind="relationship" relationship="rootViewController" id="g6m-WS-2d3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AyQ-sY-NBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3950" y="502"/>
         </scene>
     </scenes>
     <resources>
