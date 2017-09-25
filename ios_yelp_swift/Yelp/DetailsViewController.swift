@@ -75,7 +75,6 @@ class DetailsViewController: UIViewController, CLLocationManagerDelegate, MKMapV
         }
         
         annotationView!.pinTintColor = UIColor(red:0.74, green:0.11, blue:0.00, alpha:1.0)
-        print("green annotation should show")
         
         return annotationView
     }

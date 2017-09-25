@@ -353,6 +353,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="bom-mh-QCk" id="87A-FV-wR0"/>
+                        <segue destination="RFX-I5-Teb" kind="presentation" identifier="mapToDetailsViewController" id="y5V-Ru-Xqo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VdU-OB-RZh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -372,16 +373,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="imk-lE-DhM">
-                                <rect key="frame" x="16" y="217" width="182.5" height="26.5"/>
+                                <rect key="frame" x="16" y="217" width="183" height="27"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vev-ES-gyL">
-                                <rect key="frame" x="16" y="251.5" width="87" height="15"/>
+                                <rect key="frame" x="16" y="252" width="87" height="15"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="87" id="CHs-vL-HGj"/>
-                                    <constraint firstAttribute="height" constant="15" id="fSS-Zx-rmH"/>
+                                    <constraint firstAttribute="width" constant="87" id="iTv-dw-PCM"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="384 reviews" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ghN-hR-mRn">
@@ -391,7 +391,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thai, American" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sOU-ny-1Rw">
-                                <rect key="frame" x="16" y="278.5" width="102.5" height="18"/>
+                                <rect key="frame" x="16" y="279" width="103" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -399,15 +399,14 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="restaurant-939435_960_720" translatesAutoresizingMaskIntoConstraints="NO" id="0Tj-Sz-Fkf">
                                 <rect key="frame" x="0.0" y="64" width="375" height="143"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="143" id="ckJ-hf-mCU"/>
+                                    <constraint firstAttribute="height" constant="143" id="ouX-bl-BcP"/>
                                 </constraints>
                             </imageView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ziF-4d-6cZ">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ziF-4d-6cZ">
                                 <rect key="frame" x="16" y="348" width="343" height="149"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 Mission St, San Francisco, CA 94901" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oil-Ao-jLL">
-                                <rect key="frame" x="16" y="309" width="280.5" height="18"/>
+                                <rect key="frame" x="16" y="309" width="281" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -415,19 +414,24 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="top" secondItem="73V-0Z-RWd" secondAttribute="bottom" id="0b7-Kf-jVL"/>
-                            <constraint firstItem="ghN-hR-mRn" firstAttribute="centerY" secondItem="Vev-ES-gyL" secondAttribute="centerY" id="0im-RD-JsK"/>
-                            <constraint firstItem="Vev-ES-gyL" firstAttribute="top" secondItem="imk-lE-DhM" secondAttribute="bottom" constant="8" id="98Y-xZ-Wkf"/>
-                            <constraint firstItem="Oil-Ao-jLL" firstAttribute="top" secondItem="sOU-ny-1Rw" secondAttribute="bottom" constant="12" id="C7u-cN-BDL"/>
-                            <constraint firstItem="sOU-ny-1Rw" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="Fpr-Zi-l3B"/>
-                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leading" id="Gzl-hy-D2M"/>
-                            <constraint firstItem="Oil-Ao-jLL" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="Kh5-VU-w0A"/>
-                            <constraint firstAttribute="trailing" secondItem="0Tj-Sz-Fkf" secondAttribute="trailing" id="bDD-ic-sXa"/>
-                            <constraint firstItem="ghN-hR-mRn" firstAttribute="leading" secondItem="Vev-ES-gyL" secondAttribute="trailing" constant="5" id="c8c-6A-Tub"/>
-                            <constraint firstItem="sOU-ny-1Rw" firstAttribute="top" secondItem="ghN-hR-mRn" secondAttribute="bottom" constant="10" id="fvK-BD-Cx9"/>
-                            <constraint firstItem="imk-lE-DhM" firstAttribute="top" secondItem="0Tj-Sz-Fkf" secondAttribute="bottom" constant="10" id="vuF-Vs-6jk"/>
-                            <constraint firstItem="imk-lE-DhM" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="wvg-gV-DxR"/>
-                            <constraint firstItem="Vev-ES-gyL" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="x0Y-Ga-bKI"/>
+                            <constraint firstItem="ghN-hR-mRn" firstAttribute="top" secondItem="imk-lE-DhM" secondAttribute="bottom" constant="6" id="22j-ts-qSb"/>
+                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leading" id="3p1-x7-XeR"/>
+                            <constraint firstItem="GKR-cS-0VI" firstAttribute="top" secondItem="ziF-4d-6cZ" secondAttribute="bottom" constant="170" id="7Pf-y4-HYT"/>
+                            <constraint firstItem="Vev-ES-gyL" firstAttribute="top" secondItem="imk-lE-DhM" secondAttribute="bottom" constant="8" symbolic="YES" id="8ma-sA-Kwz"/>
+                            <constraint firstItem="ghN-hR-mRn" firstAttribute="leading" secondItem="Vev-ES-gyL" secondAttribute="trailing" constant="5" id="Aph-76-W9Z"/>
+                            <constraint firstItem="sOU-ny-1Rw" firstAttribute="top" secondItem="ghN-hR-mRn" secondAttribute="bottom" constant="11" id="Atg-Ug-ZZA"/>
+                            <constraint firstItem="Oil-Ao-jLL" firstAttribute="leading" secondItem="ziF-4d-6cZ" secondAttribute="leading" id="BLP-VT-dcf"/>
+                            <constraint firstItem="Oil-Ao-jLL" firstAttribute="top" secondItem="sOU-ny-1Rw" secondAttribute="bottom" constant="12" id="NhM-TZ-klv"/>
+                            <constraint firstItem="Vev-ES-gyL" firstAttribute="centerY" secondItem="ghN-hR-mRn" secondAttribute="centerY" id="OFa-BG-T36"/>
+                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="top" secondItem="73V-0Z-RWd" secondAttribute="bottom" id="SRl-5h-rDX"/>
+                            <constraint firstAttribute="trailing" secondItem="0Tj-Sz-Fkf" secondAttribute="trailing" id="TcZ-Mj-JSm"/>
+                            <constraint firstItem="imk-lE-DhM" firstAttribute="top" secondItem="0Tj-Sz-Fkf" secondAttribute="bottom" constant="10" id="bOV-kv-fXZ"/>
+                            <constraint firstItem="ziF-4d-6cZ" firstAttribute="top" secondItem="Oil-Ao-jLL" secondAttribute="bottom" constant="21" id="cvU-Qz-A5j"/>
+                            <constraint firstItem="imk-lE-DhM" firstAttribute="leading" secondItem="Vev-ES-gyL" secondAttribute="leading" id="in3-JH-lpN"/>
+                            <constraint firstItem="imk-lE-DhM" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="qFz-dx-UEu"/>
+                            <constraint firstItem="Vev-ES-gyL" firstAttribute="leading" secondItem="sOU-ny-1Rw" secondAttribute="leading" id="r5r-OG-bZU"/>
+                            <constraint firstItem="sOU-ny-1Rw" firstAttribute="leading" secondItem="Oil-Ao-jLL" secondAttribute="leading" id="seP-KT-CUE"/>
+                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="centerX" secondItem="ziF-4d-6cZ" secondAttribute="centerX" id="zYK-Wo-Q0M"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="0pE-5d-Jsg">
@@ -545,4 +549,7 @@
         <image name="bizimage-small" width="65" height="65"/>
         <image name="restaurant-939435_960_720" width="480" height="320"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="y5V-Ru-Xqo"/>
+    </inferredMetricsTieBreakers>
 </document>
