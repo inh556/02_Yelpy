@@ -2,7 +2,7 @@
 
 **Yelpy** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-Time spent: **X** hours spent in total
+Time spent: **30.5** hours spent in total
 
 ## User Stories
 
@@ -43,7 +43,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://raw.githubusercontent.com/yzhanghearsay/02_Yelpy/master/ios_yelp_swift/yelpy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -51,7 +51,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
-Used a few images from the Noun Project and <a href = "https://www.google.com/search?as_st=y&hl=en&tbs=sur%3Af&tbm=isch&sa=1&q=restaurant&oq=restaurant&gs_l=psy-ab.3..0i67k1l4.23045.23045.0.23409.1.1.0.0.0.0.119.119.0j1.1.0....0...1.1.64.psy-ab..0.1.118....0.HKeeqWVwHRU#imgrc=anN0O9s2ykwOMM:" target = "_blank">a restaurant image from Google</a>.
+1. I spent so much time on figuring out the filters. Mostly working but not ideal. Once you select filter and if you go back to filter again, your previous selection was lost. I haven't figured out how to store the value.'
+2. I think if there's more data for each restaurant, I can do a better details page.'
+3. Used a few images from the Noun Project and <a href = "https://www.google.com/search?as_st=y&hl=en&tbs=sur%3Af&tbm=isch&sa=1&q=restaurant&oq=restaurant&gs_l=psy-ab.3..0i67k1l4.23045.23045.0.23409.1.1.0.0.0.0.119.119.0j1.1.0....0...1.1.64.psy-ab..0.1.118....0.HKeeqWVwHRU#imgrc=anN0O9s2ykwOMM:" target = "_blank">a restaurant image from Google</a>.
 
 ## License
 
