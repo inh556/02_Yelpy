@@ -22,21 +22,22 @@ The following **optional** features are implemented:
 
 - [ ] Search results page
 - [x] Infinite scroll for restaurant results.
-- [ ] Implement map view of restaurant results.
+- [x] Implement map view of restaurant results.
 - [ ] Filter page -- ** Yingying: not sure how it would different from Filter page above?**
 - [ ] Implement a custom switch instead of the default UISwitch.
 - [ ] Distance filter should expand as in the real Yelp app
 - [ ] Categories should show a subset of the full list with a "See All" row to expand. Category list is [here](http://www.yelp.com/developers/documentation/category_list).
-- [ ] Implement the restaurant detail page.
+- [x] Implement the restaurant detail page.
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [x] Click pin to go to details page
+- [x] A map view on details page
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. I think it's easier to have 4 cells on the filter page, so that different section can have different looks'
+2. The data passing from pins on map view to details view is tricky, spent some time to figure out how to know which pin clicked. I used a class and global var to save current pin (which is related to a business), hope there's a better & easier way.'
 
 ## Video Walkthrough
 
