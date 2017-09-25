@@ -21,6 +21,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var savedFilters = [String: AnyObject]()
     
     var isMoreDataLoading = false // Inifinite scroll
+    var loadingMoreView:InfiniteScrollActivityView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+        
+        // Infinite scroll - start
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
+        
+        // Infinite scroll - end
         
         //print("default savedFilters upon init: \(savedFilters)")
         
@@ -56,33 +69,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             savedFilters["categories"] = [] as AnyObject
         }
         
-        /*
-        Business.searchWithTerm(term: "Restaurants", completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            self.tableView.reloadData()
-            
-            }
-        )
-         */
         
-        
-        // Example of Yelp search with more search options specified
-         Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool) { (businesses: [Business]!, error: Error!) -> Void in
-         
-            self.isMoreDataLoading = false
+        Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool) { (businesses: [Business]!, error: Error!) -> Void in
             
             self.businesses = businesses
          
             self.filteredBusinesses = self.businesses
-            //for business in businesses {
-            //print(business.name!)
-            //print(business.address!)
+
             self.tableView.reloadData()
-            //   }
-         }
-        
-        
+        }
     }
     
     
@@ -144,7 +139,20 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             let navigationController = segue.destination as! UINavigationController
             let mapViewController = navigationController.topViewController as! MapViewController
             
-            //mapViewController.delegate = self
+            mapViewController.businesses = businesses
+
+        }
+        else if segue.identifier == "detailsViewControllerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let detailsViewController = navigationController.topViewController as! DetailsViewController
+            
+            let tableCell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: tableCell)
+            let business = businesses![indexPath!.row]
+            
+            detailsViewController.business = business
+            
+            tableCell.selectionStyle = .none
         }
     }
     
@@ -178,12 +186,71 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
                 isMoreDataLoading = true
                 
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
                 // ... Code to load more results ...
-                /*
-                Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool, completion: ([Business]?, Error?))
- */
+                
+                    Business.searchWithTerm(term: "Restaurants", sort: YelpSortMode(rawValue: savedFilters["sortBy"] as! Int), categories: savedFilters["categories"] as? [String], distance: savedFilters["distance"] as? Int, deals: savedFilters["deals"] as? Bool) { (businesses: [Business]!, error: Error!) -> Void in
+                        
+                        self.isMoreDataLoading = false
+                        
+                        if self.businesses != nil {
+                            
+                            for business in businesses {
+                                self.businesses.append(business)
+                            }
+                        }
+                        
+                        //self.businesses = businesses
+                        
+                        self.filteredBusinesses = self.businesses
+                        
+                        self.tableView.reloadData()
+
+                }
+
             }
         }
     }
 
+}
+
+
+class InfiniteScrollActivityView: UIView {
+    var activityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView()
+    static let defaultHeight:CGFloat = 60.0
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupActivityIndicator()
+    }
+    
+    override init(frame aRect: CGRect) {
+        super.init(frame: aRect)
+        setupActivityIndicator()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        activityIndicatorView.center = CGPoint(x: self.bounds.size.width/2, y: self.bounds.size.height/2)
+    }
+    
+    func setupActivityIndicator() {
+        activityIndicatorView.activityIndicatorViewStyle = .gray
+        activityIndicatorView.hidesWhenStopped = true
+        self.addSubview(activityIndicatorView)
+    }
+    
+    func stopAnimating() {
+        self.activityIndicatorView.stopAnimating()
+        self.isHidden = true
+    }
+    
+    func startAnimating() {
+        self.isHidden = false
+        self.activityIndicatorView.startAnimating()
+    }
 }

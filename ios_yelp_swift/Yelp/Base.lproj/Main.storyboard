@@ -116,6 +116,7 @@
                                             <outlet property="ratingImageView" destination="NR8-Jq-KVg" id="WF4-3x-qVh"/>
                                             <outlet property="reviewsCountLabel" destination="Fxz-hv-qsW" id="J3A-0k-Yef"/>
                                             <outlet property="thumbImageView" destination="Fb4-1G-vBq" id="azU-j7-8V2"/>
+                                            <segue destination="RFX-I5-Teb" kind="presentation" identifier="detailsViewControllerSegue" modalTransitionStyle="crossDissolve" id="5bj-ae-FO2"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -358,6 +359,97 @@
             </objects>
             <point key="canvasLocation" x="4729" y="502"/>
         </scene>
+        <!--Details-->
+        <scene sceneID="SRt-xQ-e9B">
+            <objects>
+                <viewController id="irx-ps-caH" customClass="DetailsViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="73V-0Z-RWd"/>
+                        <viewControllerLayoutGuide type="bottom" id="GKR-cS-0VI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iIk-AF-FXK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="imk-lE-DhM">
+                                <rect key="frame" x="16" y="217" width="182.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vev-ES-gyL">
+                                <rect key="frame" x="16" y="251.5" width="87" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="87" id="CHs-vL-HGj"/>
+                                    <constraint firstAttribute="height" constant="15" id="fSS-Zx-rmH"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="384 reviews" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ghN-hR-mRn">
+                                <rect key="frame" x="108" y="250" width="84" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thai, American" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sOU-ny-1Rw">
+                                <rect key="frame" x="16" y="278.5" width="102.5" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="restaurant-939435_960_720" translatesAutoresizingMaskIntoConstraints="NO" id="0Tj-Sz-Fkf">
+                                <rect key="frame" x="0.0" y="64" width="375" height="143"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="143" id="ckJ-hf-mCU"/>
+                                </constraints>
+                            </imageView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ziF-4d-6cZ">
+                                <rect key="frame" x="16" y="348" width="343" height="149"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 Mission St, San Francisco, CA 94901" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oil-Ao-jLL">
+                                <rect key="frame" x="16" y="309" width="280.5" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="top" secondItem="73V-0Z-RWd" secondAttribute="bottom" id="0b7-Kf-jVL"/>
+                            <constraint firstItem="ghN-hR-mRn" firstAttribute="centerY" secondItem="Vev-ES-gyL" secondAttribute="centerY" id="0im-RD-JsK"/>
+                            <constraint firstItem="Vev-ES-gyL" firstAttribute="top" secondItem="imk-lE-DhM" secondAttribute="bottom" constant="8" id="98Y-xZ-Wkf"/>
+                            <constraint firstItem="Oil-Ao-jLL" firstAttribute="top" secondItem="sOU-ny-1Rw" secondAttribute="bottom" constant="12" id="C7u-cN-BDL"/>
+                            <constraint firstItem="sOU-ny-1Rw" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="Fpr-Zi-l3B"/>
+                            <constraint firstItem="0Tj-Sz-Fkf" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leading" id="Gzl-hy-D2M"/>
+                            <constraint firstItem="Oil-Ao-jLL" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="Kh5-VU-w0A"/>
+                            <constraint firstAttribute="trailing" secondItem="0Tj-Sz-Fkf" secondAttribute="trailing" id="bDD-ic-sXa"/>
+                            <constraint firstItem="ghN-hR-mRn" firstAttribute="leading" secondItem="Vev-ES-gyL" secondAttribute="trailing" constant="5" id="c8c-6A-Tub"/>
+                            <constraint firstItem="sOU-ny-1Rw" firstAttribute="top" secondItem="ghN-hR-mRn" secondAttribute="bottom" constant="10" id="fvK-BD-Cx9"/>
+                            <constraint firstItem="imk-lE-DhM" firstAttribute="top" secondItem="0Tj-Sz-Fkf" secondAttribute="bottom" constant="10" id="vuF-Vs-6jk"/>
+                            <constraint firstItem="imk-lE-DhM" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="wvg-gV-DxR"/>
+                            <constraint firstItem="Vev-ES-gyL" firstAttribute="leading" secondItem="iIk-AF-FXK" secondAttribute="leadingMargin" id="x0Y-Ga-bKI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Details" id="0pE-5d-Jsg">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="1oe-3a-hvY">
+                            <connections>
+                                <action selector="onBackButton:" destination="irx-ps-caH" id="X2W-jY-QhF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addressLabel" destination="Oil-Ao-jLL" id="llZ-as-G3d"/>
+                        <outlet property="categoriesLabel" destination="sOU-ny-1Rw" id="CpK-d1-XgA"/>
+                        <outlet property="mapView" destination="ziF-4d-6cZ" id="7sO-wq-CA2"/>
+                        <outlet property="nameLabel" destination="imk-lE-DhM" id="ZXs-5m-rR4"/>
+                        <outlet property="ratingImageView" destination="Vev-ES-gyL" id="6kV-fp-Gbd"/>
+                        <outlet property="reviewsCountLabel" destination="ghN-hR-mRn" id="0mc-Si-oNk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FUG-ay-IUM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4728.8000000000002" y="1315.5922038980511"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Nys-VH-k5R">
             <objects>
@@ -425,8 +517,32 @@
             </objects>
             <point key="canvasLocation" x="3950" y="502"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="LfA-QQ-t3l">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RFX-I5-Teb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UN5-P6-LL5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.74117647060000003" green="0.1058823529" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="irx-ps-caH" kind="relationship" relationship="rootViewController" id="SMY-2z-zyn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fD8-kL-OeN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3950" y="1316"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bizimage-small" width="65" height="65"/>
+        <image name="restaurant-939435_960_720" width="480" height="320"/>
     </resources>
 </document>

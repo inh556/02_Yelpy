@@ -10,16 +10,29 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    
+    var businesses: [Business]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        mapView.delegate = self
+        
         // Set up center location
-        let centerLocation = CLLocation(latitude: 37.7833, longitude: -122.4167)
+        let centerLocation = CLLocation(latitude: businesses[0].latitude!, longitude: businesses[0].longitude!)
         goToLocation(location: centerLocation)
+        
+        for business in businesses {
+            
+            let annotation = MKPointAnnotation()
+            
+            annotation.coordinate = CLLocationCoordinate2D(latitude: business.latitude!, longitude: business.longitude!)
+            mapView.addAnnotation(annotation)
+        
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,7 +45,7 @@ class MapViewController: UIViewController {
     }
 
     func goToLocation(location: CLLocation) {
-        let span = MKCoordinateSpanMake(0.1, 0.1)
+        let span = MKCoordinateSpanMake(0.02, 0.02)
         let region = MKCoordinateRegionMake(location.coordinate, span)
         mapView.setRegion(region, animated: false)
     }
